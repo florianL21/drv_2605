@@ -29,7 +29,7 @@ void app_main(void)
     ESP_LOGI(TAG, "Initializing Haptics driver...");
     DRV2605_autocalibration_inputs_t cal_settings = haptic_init(I2C_PORT, DRV2605_MOTOR_TYPE_LRA);
     // haptic_calculate_ERM_calibration(&cal_settings, 3, 3.3, 19);
-    haptic_calculate_LRA_calibration(&cal_settings, 1.8, 1.85, 234);
+    haptic_calculate_LRA_calibration(&cal_settings, 2, 2.3, 100);
     // bool claibration_sucess = haptic_calibrate(I2C_PORT, &cal_settings);
     // if(claibration_sucess) {
     //     ESP_LOGI(TAG, "Calibration sucessful");

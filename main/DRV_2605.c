@@ -184,7 +184,7 @@ void haptic_register_dump(uint8_t ic2_port) {
 }
 
 void haptic_reset(uint8_t ic2_port) {
-    ESP_ERROR_CHECK(i2c_write_reg(ic2_port, DRV2605_REG_MODE, DRV2605_MASK_MODE_RESET));
+    ESP_ERROR_CHECK(i2c_modify_reg(ic2_port, DRV2605_REG_MODE, DRV2605_MASK_MODE_RESET, DRV2605_MASK_MODE_RESET));
     uint8_t reset_in_progress = 1;
     while (reset_in_progress != 0) {
         if(i2c_read_reg(ic2_port, DRV2605_REG_MODE, &reset_in_progress) == ESP_OK) {
@@ -304,7 +304,6 @@ bool haptic_calibrate(uint8_t ic2_port, DRV2605_autocalibration_inputs_t* config
 }
 
 DRV2605_autocalibration_inputs_t haptic_init(uint8_t ic2_port, DRV2605_motor_type_t motor_type) {
-    haptic_reset(ic2_port);
     uint16_t tries = 0;
     uint8_t dummy;
     while(tries < 1000) {
@@ -320,7 +319,7 @@ DRV2605_autocalibration_inputs_t haptic_init(uint8_t ic2_port, DRV2605_motor_typ
         haptic_select_library(ic2_port, DRV2605_LIBRARY_TS2200_LIB_A);
     }
 
-    // populate with recomended defaults from datasheet
+    // populate with recomended defaults from data sheet
     DRV2605_autocalibration_inputs_t cal_settings = {
         .motor_type = motor_type,
         .break_factor = 2, // FB_BRAKE_FACTOR
